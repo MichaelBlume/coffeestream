@@ -62,7 +62,8 @@ class Stream
     length: ->
         return 0 if @empty()
         1 + @tail().length()
-exports.Stream = Stream
+output = exports or window
+output.Stream = Stream
     
         
     
