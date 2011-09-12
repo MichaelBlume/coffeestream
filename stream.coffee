@@ -62,6 +62,11 @@ class Stream
     length: ->
         return 0 if @empty()
         1 + @tail().length()
+    list: ->
+        out = []
+        @walk (n) ->
+            out.push n
+        out
 output = exports or window
 output.Stream = Stream
     
