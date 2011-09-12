@@ -9,14 +9,14 @@ class Stream
             new Stream(head, Stream.make(rest...))
         else
             new Stream()
-    tie: ->
+    throw_if_empty: ->
         if @empty()
             throw error: "end of stream"
     head: ->
-        @tie()
+        @throw_if_empty()
         @_head
     tail: ->
-        @tie()
+        @throw_if_empty()
         if @_tail not instanceof Stream
             @_tail = @_tail()
         @_tail
