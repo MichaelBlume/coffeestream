@@ -31,28 +31,25 @@ class Stream
         return if @empty()
         f @head()
         @tail().walk f
-    print: ->
-        @walk console.log
+    print: -> @walk console.log
     map: (f) ->
         if @empty()
-            return new Stream()
+            new Stream()
         else
             new Stream f(@head()), =>
                 @tail().map f
     filter: (f) ->
         if @empty()
-            return new Stream()
-        if f(@head())
+            new Stream()
+        else if f(@head())
             new Stream @head(), =>
                 @tail().filter f
         else
             @tail().filter(f)
     take: (n) ->
-        if n==0
-            return new Stream()
+        return new Stream() if n==0
         new Stream @head(), =>
-            if n==1
-                return new Stream()
+            return new Stream() if n==1
             @tail().take n-1
     scale: (factor) ->
         scaleone = (n) -> factor*n
@@ -63,10 +60,8 @@ class Stream
         new Stream (@head() + s.head()), =>
             @tail().add s.tail()
     length: ->
-        if @empty()
-            0
-        else
-            1 + @tail().length()
+        return 0 if @empty()
+        1 + @tail().length()
 exports.Stream = Stream
     
         
