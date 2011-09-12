@@ -6,7 +6,8 @@ class Stream
     empty: -> @_head == nonce
     @make: (head=nonce, rest...) ->
         if head != nonce
-            new Stream(head, Stream.make(rest...))
+            new Stream head, ->
+                Stream.make rest...
         else
             new Stream()
     throw_if_empty: ->
