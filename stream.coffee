@@ -71,7 +71,19 @@ class Stream
         out
 output = exports or window
 output.Stream = Stream
-    
+
+primeStream = Stream.range(2).filter (n) ->
+    if n==2
+        return true
+    try
+        primeStream.walk (p) ->
+            if p*p > n
+                throw true
+            if n%p == 0
+                throw false
+    catch res
+        return res
+output.primeStream = primeStream
         
     
 
