@@ -21,8 +21,9 @@ class Stream
         if @_tail not instanceof Stream
             @_tail = @_tail()
         @_tail
-    item: (n) ->
-        if n==0 then @head() else @tail().item(n-1)
+    item: (n) -> @skip(n).head()
+    skip: (n) ->
+        if n==0 then this else @tail().skip(n-1)
     @range: (min=1, max='never') ->
         if min == max
             Stream.make(min)
