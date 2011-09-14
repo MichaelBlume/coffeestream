@@ -12,6 +12,11 @@ eqList = (s,l) ->
   assert s.equal Stream.make l...
 
 
+#before we start, make sure this equal thing works
+one_to_five = Stream.range(1,5)
+one_to_ten = Stream.range(1,10)
+assert not one_to_five.equal one_to_ten
+
 s = Stream.make(10, 20, 30)
 eqList s, [10,20,30]
 eq s.length(), 3
