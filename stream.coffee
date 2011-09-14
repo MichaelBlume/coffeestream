@@ -56,11 +56,22 @@ class Stream
     scale: (factor) ->
         scaleone = (n) -> factor*n
         @map(scaleone)
-    add: (s) ->
-        return this if s.empty()
-        return s if @empty()
-        new Stream (@head() + s.head()), =>
-            @tail().add s.tail()
+    zip: (zipper, otherstream) ->
+        mismatch = ->
+            throw error: "length mismatch"
+        if @empty()
+            if otherstream.empty()
+                new Stream()
+            else
+                mismatch()
+        else if otherstream.empty()
+            mismatch()
+        else
+            new Stream zipper(@head(), otherstream.head()), =>
+                @tail().zip(zipper, otherstream.tail())
+    add: (otherstream) ->
+        sum = (a,b) -> a+b
+        @zip sum, otherstream
     length: ->
         return 0 if @empty()
         1 + @tail().length()
