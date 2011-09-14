@@ -69,6 +69,12 @@ class Stream
         @walk (n) ->
             out.push n
         out
+    equal: (s) ->
+        return s.empty() if @empty()
+        return false if s.empty()
+        return false if s.head() != @head()
+        return @tail().equal(s.tail())
+
 output = exports or window
 output.Stream = Stream
 
