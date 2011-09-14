@@ -116,4 +116,8 @@ sieve = (s) ->
       x % h != 0
     )
   )
-eqList sieve(Stream.range(2)).take(10), [2,3,5,7,11,13,17,19,23,29]
+tenPrimes = [2,3,5,7,11,13,17,19,23,29]
+eqList sieve(Stream.range(2)).take(10), tenPrimes
+
+
+eqList primeStream.take(10), tenPrimes
