@@ -72,9 +72,14 @@ class Stream
     add: (otherstream) ->
         sum = (a,b) -> a+b
         @zip sum, otherstream
+    reduce: (reducer, initial) ->
+        if @empty()
+            initial
+        else
+            @tail().reduce(reducer, reducer(initial, @head()))
     length: ->
-        return 0 if @empty()
-        1 + @tail().length()
+        ag = (sum, entry) -> sum+1
+        @reduce ag, 0
     list: ->
         out = []
         @walk (n) ->
