@@ -72,6 +72,8 @@ class Stream
     add: (otherstream) ->
         sum = (a,b) -> a+b
         @zip sum, otherstream
+    force: ->
+        @tail().force() unless @empty()
     reduce: (reducer, initial) ->
         if @empty()
             initial
