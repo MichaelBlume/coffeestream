@@ -6,10 +6,18 @@ assert = (b) ->
     throw 'fuck'
 
 eq = (a,b) ->
-  assert a==b
+    if a==b
+        return
+    console.log a
+    console.log b
+    throw 'fuck'
 
 eqList = (s,l) ->
-  assert s.equal Stream.make l...
+  if s.equal Stream.make l...
+      return
+  console.log s.list()
+  console.log l
+  throw 'fuck'
 
 
 #before we start, make sure this equal thing works
