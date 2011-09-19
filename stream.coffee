@@ -83,8 +83,9 @@ class Stream
             initial = reducer initial, element
         initial
     length: ->
-        ag = (sum, entry) -> sum+1
-        @reduce ag, 0
+        l = 0
+        @walk -> l++
+        l
     list: ->
         out = []
         @walk (n) ->
