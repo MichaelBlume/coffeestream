@@ -39,6 +39,7 @@ class Stream
             f s.head()
             s = s.tail()
     print: -> @walk console.log
+    force: -> @walk ->
     map: (f) ->
         if @empty()
             new Stream()
@@ -77,13 +78,10 @@ class Stream
     add: (otherstream) ->
         sum = (a,b) -> a+b
         @zip sum, otherstream
-    force: ->
-        @tail().force() unless @empty()
     reduce: (reducer, initial) ->
-        if @empty()
-            initial
-        else
-            @tail().reduce(reducer, reducer(initial, @head()))
+        @walk (element) ->
+            initial = reducer initial, element
+        initial
     length: ->
         ag = (sum, entry) -> sum+1
         @reduce ag, 0
