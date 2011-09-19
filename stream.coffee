@@ -88,10 +88,12 @@ class Stream
             out.push n
         out
     equal: (s) ->
-        return s.empty() if @empty()
-        return false if s.empty()
-        return false if s.head() != @head()
-        return @tail().equal(s.tail())
+        eq = (a,b) -> a == b
+        both = (a,b) -> a and b
+        try
+            @zip(eq, s).reduce(both, true)
+        catch err
+            false
 
 output = exports or window
 output.Stream = Stream
