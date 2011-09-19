@@ -23,16 +23,21 @@ class Stream
         @_tail
     item: (n) -> @skip(n).head()
     skip: (n) ->
-        if n==0 then this else @tail().skip(n-1)
+        s = this
+        while n != 0
+            n--
+            s = s.tail()
+        s
     @range: (min=1, max='never') ->
         if min == max
             Stream.make(min)
         else new Stream min, ->
             Stream.range(min+1, max)
     walk: (f) ->
-        return if @empty()
-        f @head()
-        @tail().walk f
+        s = this
+        until s.empty()
+            f s.head()
+            s = s.tail()
     print: -> @walk console.log
     map: (f) ->
         if @empty()
