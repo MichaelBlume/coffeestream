@@ -92,12 +92,12 @@ class Stream
             out.push n
         out
     equal: (s) ->
-        eq = (a,b) -> a == b
-        both = (a,b) -> a and b
+        neq = (a,b) -> a!=b
+        bstream = @zip neq, s
         try
-            @zip(eq, s).reduce(both, true)
+            bstream.filter(->).empty()
         catch err
-            false
+            return false
 
 output = exports or window
 output.Stream = Stream
