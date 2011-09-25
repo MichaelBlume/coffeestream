@@ -98,7 +98,9 @@ class Stream
         try
             bstream.filter(->).empty()
         catch err
-            return false
+            if err.error != "length mismatch"
+                throw err
+            false
 
 output = exports or window
 output.Stream = Stream
