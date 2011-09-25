@@ -38,6 +38,7 @@ class Stream
         until s.empty()
             f s.head()
             s = s.tail()
+        null
     print: -> @walk console.log
     force: -> @walk ->
     map: (f) ->
