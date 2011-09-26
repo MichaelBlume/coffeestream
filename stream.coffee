@@ -94,8 +94,8 @@ class Stream
         out
     equal: (s) ->
         neq = (a,b) -> a!=b
-        bstream = @zip neq, s
         try
+            bstream = @zip neq, s
             bstream.filter(->).empty()
         catch err
             if err.error != "length mismatch"
