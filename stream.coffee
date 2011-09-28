@@ -1,3 +1,4 @@
+plus = (a,b) -> a+b
 nonce=[]
 class Stream
     constructor: (@_head=nonce, @_tail) ->
@@ -76,9 +77,7 @@ class Stream
         else
             new Stream zipper(@head(), otherstream.head()), =>
                 @tail().zip(zipper, otherstream.tail())
-    add: (otherstream) ->
-        sum = (a,b) -> a+b
-        @zip sum, otherstream
+    add: (otherstream) -> @zip plus, otherstream
     reduce: (reducer, initial) ->
         @walk (element) ->
             initial = reducer initial, element
