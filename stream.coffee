@@ -95,6 +95,7 @@ class Stream
         @walk (element) ->
             initial = reducer initial, element
         initial
+    sum: -> @reduce(plus, 0)
     length: ->
         l = 0
         @walk -> l++

@@ -35,6 +35,7 @@ eq s.head(), 10
 eq s.item(0), 10
 eq s.item(1), 20
 eq s.item(2), 30
+eq s.sum(), 60
 
 t = s.tail()
 eq t.head(), 20
