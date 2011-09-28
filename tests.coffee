@@ -110,6 +110,12 @@ ones = ->
 s = ones()
 eqList s.take(3), [1,1,1]
 
+a = Stream.make 1,2,3
+b = Stream.make 4,5,6
+
+eqList a.append(b), [1,2,3,4,5,6]
+eqList a.cycle().take(8), [1,2,3,1,2,3,1,2]
+eqList Stream.repeat(1).take(5), [1,1,1,1,1]
 
 naturalNumbers = ->
   new Stream(1, ->

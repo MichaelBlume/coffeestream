@@ -11,6 +11,8 @@ class Stream
                 Stream.make rest...
         else
             new Stream()
+    @repeat: (x) ->
+        s=new Stream x, -> s
     throw_if_empty: ->
         if @empty()
             throw error: "end of stream"
@@ -77,6 +79,17 @@ class Stream
         else
             new Stream zipper(@head(), otherstream.head()), =>
                 @tail().zip(zipper, otherstream.tail())
+    append: (s) ->
+        if @empty()
+            s
+        else
+            new Stream @head(), =>
+                @tail().append(s)
+    cycle: ->
+        if @empty()
+            throw error: "zero times infinity"
+        s = new Stream @head(), =>
+            @tail().append(s)
     add: (otherstream) -> @zip plus, otherstream
     reduce: (reducer, initial) ->
         @walk (element) ->
