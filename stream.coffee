@@ -130,8 +130,12 @@ primeStream = Stream.range(2).filter (n) ->
     catch res
         return res
 output.primeStream = primeStream
-        
-    
 
+#in general, it is not possible to tell if a stream is finite.
+paradoxicalStream = new Stream 1, ->
+    if paradoxicalStream.is_finite()
+        Stream.repeat(1)
+    else
+        new Stream()
 
 
