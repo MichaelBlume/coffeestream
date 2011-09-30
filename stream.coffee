@@ -129,17 +129,16 @@ class Stream
 output = exports or window
 output.Stream = Stream
 
-primeStream = Stream.range(2).filter (n) ->
-    if n==2
-        return true
-    try
-        primeStream.walk (p) ->
-            if p*p > n
-                throw true
-            if n%p == 0
-                throw false
-    catch res
-        return res
+primeStream = new Stream 2, ->
+    biggestPrime = 2
+    Stream.range(3).filter (primeCandidate) ->
+        isprime = primeStream.until((prime)->
+            prime*prime > primeCandidate or prime == biggestPrime
+        ).filter((prime)->
+            primeCandidate%prime == 0
+        ).empty()
+        biggestPrime = primeCandidate if isprime
+        isprime
 output.primeStream = primeStream
 
 #in general, it is not possible to tell if a stream is finite.
