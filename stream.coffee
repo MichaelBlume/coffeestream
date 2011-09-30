@@ -105,6 +105,17 @@ class Stream
         @walk (n) ->
             out.push n
         out
+    until: (f) ->
+        return new Stream() if @empty() or f @head()
+        new Stream @head(), =>
+            @tail().until f
+    up_until: (f) ->
+        return new Stream() if @empty()
+        new Stream @head(), =>
+            if f @head()
+                new Stream()
+            else
+                @tail().up_until f
     equal: (s) ->
         neq = (a,b) -> a!=b
         try

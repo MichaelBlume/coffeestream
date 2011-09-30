@@ -65,6 +65,11 @@ numbers = Stream.range(10, 15)
 onlyOdds = numbers.filter(checkIfOdd)
 eqList onlyOdds, [11,13,15]
 
+isFive = (x) -> x==5
+
+eqList Stream.range(1).until(isFive), [1..4]
+eqList Stream.range(1).up_until(isFive), [1..5]
+
 printItem = (x) ->
   console.log "The element is: " + x
 numbers = Stream.range(10, 12)
