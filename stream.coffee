@@ -124,6 +124,7 @@ class Stream
             if err.error != "length mismatch"
                 throw err
             false
+    member: (x) -> not @filter((m) -> m==x).empty()
 
 output = exports or window
 output.Stream = Stream

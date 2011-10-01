@@ -28,6 +28,10 @@ assert not one_to_five.equal one_to_ten
 assert not empty.equal one_to_five
 assert not one_to_five.equal empty
 
+assert one_to_five.member(1)
+assert one_to_five.member(5)
+assert not one_to_five.member(6)
+
 s = Stream.make(10, 20, 30)
 eqList s, [10,20,30]
 eq s.length(), 3
