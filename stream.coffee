@@ -51,13 +51,12 @@ class Stream
             new Stream f(@head()), =>
                 @tail().map f
     filter: (f) ->
-        if @empty()
-            new Stream()
-        else if f(@head())
-            new Stream @head(), =>
-                @tail().filter f
-        else
-            @tail().filter(f)
+        s = this
+        until s.empty() or f s.head()
+            s = s.tail()
+        return new Stream() if s.empty()
+        new Stream s.head(), ->
+            s.tail().filter f
     take: (n) ->
         return new Stream() if n==0
         new Stream @head(), =>
