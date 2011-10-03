@@ -15,10 +15,10 @@ class Stream
         s=new Stream x, -> s
     @recursive: (f, inits...) ->
         n = inits.length
-        helper = (s, partinits) ->
-            if partinits.length > 0
-                new Stream partinits[0], ->
-                    helper s, partinits[1..]
+        helper = (s, partinits, index=0) ->
+            if partinits.length > index
+                new Stream partinits[index], ->
+                    helper s, partinits, index+1
             else
                 midstreamhelper s
         midstreamhelper = (s) ->
@@ -26,7 +26,7 @@ class Stream
             new Stream next, ->
                 midstreamhelper s.tail()
         result = new Stream inits[0], ->
-            helper result, inits[1..]
+            helper result, inits, 1
 
     throw_if_empty: ->
         if @empty()
