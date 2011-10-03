@@ -13,6 +13,21 @@ class Stream
             new Stream()
     @repeat: (x) ->
         s=new Stream x, -> s
+    @recursive: (f, inits...) ->
+        n = inits.length
+        helper = (s, partinits) ->
+            if partinits.length > 0
+                new Stream partinits[0], ->
+                    helper s, partinits[1..]
+            else
+                midstreamhelper s
+        midstreamhelper = (s) ->
+            next = f(s.take(n).list()...)
+            new Stream next, ->
+                midstreamhelper s.tail()
+        result = new Stream inits[0], ->
+            helper result, inits[1..]
+
     throw_if_empty: ->
         if @empty()
             throw error: "end of stream"
@@ -130,15 +145,12 @@ output = exports or window
 output.Stream = Stream
 
 primeStream = new Stream 2, ->
-    biggestPrime = 2
     Stream.range(3).filter (primeCandidate) ->
-        isprime = primeStream.until((prime)->
-            prime*prime > primeCandidate or prime == biggestPrime
+        primeStream.until((prime)->
+            prime*prime > primeCandidate
         ).filter((prime)->
             primeCandidate%prime == 0
         ).empty()
-        biggestPrime = primeCandidate if isprime
-        isprime
 output.primeStream = primeStream
 
 #in general, it is not possible to tell if a stream is finite.
@@ -147,5 +159,3 @@ paradoxicalStream = new Stream 1, ->
         Stream.repeat(1)
     else
         new Stream()
-
-

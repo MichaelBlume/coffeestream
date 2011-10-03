@@ -148,3 +148,7 @@ eqList sieve(Stream.range(2)).take(10), tenPrimes
 
 
 eqList primeStream.take(10), tenPrimes
+
+fib = Stream.recursive ((a,b) -> a+b), 1, 1
+
+eqList fib.take(10), [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
