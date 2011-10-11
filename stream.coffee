@@ -137,10 +137,10 @@ class Stream
             else
                 @tail().up_until f
     equal: (s) ->
-        neq = (a,b) -> a!=b
+        eq = (a,b) -> a==b
         try
-            bstream = @zip neq, s
-            bstream.filter(->).empty()
+            bstream = @zip eq, s
+            bstream.all()
         catch err
             if err.error != "length mismatch"
                 throw err

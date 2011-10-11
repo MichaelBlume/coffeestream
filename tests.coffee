@@ -23,10 +23,12 @@ eqList = (s,l) ->
 #before we start, make sure this equal thing works
 one_to_five = Stream.range(1,5)
 one_to_ten = Stream.range(1,10)
+six_to_ten = Stream.range(6,10)
 empty = new Stream()
 assert not one_to_five.equal one_to_ten
 assert not empty.equal one_to_five
 assert not one_to_five.equal empty
+assert not one_to_five.equal six_to_ten
 
 assert one_to_five.member(1)
 assert one_to_five.member(5)
