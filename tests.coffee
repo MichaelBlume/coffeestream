@@ -152,3 +152,9 @@ eqList primeStream.take(10), tenPrimes
 fib = Stream.recursive ((a,b) -> a+b), 1, 1
 
 eqList fib.take(10), [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+
+
+assert Stream.make(false, false, true).any()
+assert not Stream.make(false, false, false).any()
+assert Stream.make(true, true, true).all()
+assert not Stream.make(true, true, false).all()

@@ -1,4 +1,5 @@
 plus = (a,b) -> a+b
+mirror = (x) -> x
 nonce=[]
 class Stream
     constructor: (@_head=nonce, @_tail) ->
@@ -72,6 +73,11 @@ class Stream
         return new Stream() if s.empty()
         new Stream s.head(), ->
             s.tail().filter f
+    any: (f=mirror) ->
+        not @filter(f).empty()
+    all: (f=mirror) ->
+        negated = (x) -> not f x
+        not @any(negated)
     take: (n) ->
         return new Stream() if n==0
         new Stream @head(), =>
