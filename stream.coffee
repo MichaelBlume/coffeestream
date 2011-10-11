@@ -145,7 +145,7 @@ class Stream
             if err.error != "length mismatch"
                 throw err
             false
-    member: (x) -> not @filter((m) -> m==x).empty()
+    member: (x) -> @any((m) -> m==x)
 
 output = exports or window
 output.Stream = Stream
@@ -154,9 +154,8 @@ primeStream = new Stream 2, ->
     Stream.range(3).filter (primeCandidate) ->
         primeStream.until((prime)->
             prime*prime > primeCandidate
-        ).filter((prime)->
-            primeCandidate%prime == 0
-        ).empty()
+        ).all (prime)->
+            primeCandidate%prime != 0
 output.primeStream = primeStream
 
 #in general, it is not possible to tell if a stream is finite.
