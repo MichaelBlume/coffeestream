@@ -17,7 +17,7 @@ class Stream
     @recursive: (f, inits...) ->
         n = inits.length
         helper = (index) ->
-            if inits.length > index
+            if n > index
                 new Stream inits[index], -> helper index+1
             else
                 midstreamhelper result
