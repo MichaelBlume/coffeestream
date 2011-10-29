@@ -132,7 +132,7 @@ class Stream
             if err.error != "length mismatch"
                 throw err
             false
-    member: (x) -> @any((m) -> m==x)
+    member: (x) -> @any (m) -> m==x
 
 output = exports or window
 output.Stream = Stream
