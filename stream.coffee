@@ -6,7 +6,7 @@ class Stream
     constructor: (@_head=nonce, @_tail) ->
         if not @empty() and not @_tail?
             @_tail = new Stream()
-    empty: -> @_head == nonce
+
     @make: (head=nonce, rest...) ->
         if head != nonce
             new Stream head, -> Stream.make rest...
@@ -25,7 +25,12 @@ class Stream
             next = f(s.take(n).list()...)
             new Stream next, -> midstreamhelper s.tail()
         result = new Stream inits[0], -> helper 1
+    @range: (min=1, max='never') ->
+        if min == max
+            Stream.make(min)
+        else new Stream min, -> Stream.range(min+1, max)
 
+    empty: -> @_head == nonce
     throw_if_empty: ->
         if @empty()
             throw error: "end of stream"
@@ -44,10 +49,6 @@ class Stream
             n--
             s = s.tail()
         s
-    @range: (min=1, max='never') ->
-        if min == max
-            Stream.make(min)
-        else new Stream min, -> Stream.range(min+1, max)
     walk: (f) ->
         s = this
         until s.empty()
