@@ -1,3 +1,4 @@
+#! /usr/bin/env coffee
 {Stream, primeStream} = require "./stream"
 
 assert = (b) ->
