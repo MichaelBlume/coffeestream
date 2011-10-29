@@ -16,18 +16,18 @@ class Stream
         s=new Stream x, -> s
     @recursive: (f, inits...) ->
         n = inits.length
-        helper = (s, index=0) ->
+        helper = (index) ->
             if inits.length > index
                 new Stream inits[index], ->
-                    helper s, index+1
+                    helper index+1
             else
-                midstreamhelper s
+                midstreamhelper result
         midstreamhelper = (s) ->
             next = f(s.take(n).list()...)
             new Stream next, ->
                 midstreamhelper s.tail()
         result = new Stream inits[0], ->
-            helper result, 1
+            helper 1
 
     throw_if_empty: ->
         if @empty()
