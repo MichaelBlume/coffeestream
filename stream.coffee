@@ -9,8 +9,7 @@ class Stream
     empty: -> @_head == nonce
     @make: (head=nonce, rest...) ->
         if head != nonce
-            new Stream head, ->
-                Stream.make rest...
+            new Stream head, -> Stream.make rest...
         else
             new Stream()
     @repeat: (x) ->
@@ -19,16 +18,13 @@ class Stream
         n = inits.length
         helper = (index) ->
             if inits.length > index
-                new Stream inits[index], ->
-                    helper index+1
+                new Stream inits[index], -> helper index+1
             else
                 midstreamhelper result
         midstreamhelper = (s) ->
             next = f(s.take(n).list()...)
-            new Stream next, ->
-                midstreamhelper s.tail()
-        result = new Stream inits[0], ->
-            helper 1
+            new Stream next, -> midstreamhelper s.tail()
+        result = new Stream inits[0], -> helper 1
 
     throw_if_empty: ->
         if @empty()
@@ -51,8 +47,7 @@ class Stream
     @range: (min=1, max='never') ->
         if min == max
             Stream.make(min)
-        else new Stream min, ->
-            Stream.range(min+1, max)
+        else new Stream min, -> Stream.range(min+1, max)
     walk: (f) ->
         s = this
         until s.empty()
@@ -65,17 +60,14 @@ class Stream
         if @empty()
             new Stream()
         else
-            new Stream f(@head()), =>
-                @tail().map f
+            new Stream f(@head()), => @tail().map f
     filter: (f) ->
         s = this
         until s.empty() or f s.head()
             s = s.tail()
         return new Stream() if s.empty()
-        new Stream s.head(), ->
-            s.tail().filter f
-    any: (f=mirror) ->
-        not @filter(f).empty()
+        new Stream s.head(), -> s.tail().filter f
+    any: (f=mirror) -> not @filter(f).empty()
     all: (f=mirror) ->
         negated = (x) -> not f x
         not @any(negated)
@@ -88,8 +80,7 @@ class Stream
         scaleone = (n) -> factor*n
         @map(scaleone)
     zip: (zipper, otherstream) ->
-        mismatch = ->
-            throw error: "length mismatch"
+        mismatch = -> throw error: "length mismatch"
         if @empty()
             if otherstream.empty()
                 new Stream()
@@ -104,17 +95,14 @@ class Stream
         if @empty()
             s
         else
-            new Stream @head(), =>
-                @tail().append(s)
+            new Stream @head(), => @tail().append(s)
     cycle: ->
         if @empty()
             throw error: "zero times infinity"
-        s = new Stream @head(), =>
-            @tail().append(s)
+        s = new Stream @head(), => @tail().append(s)
     add: (otherstream) -> @zip plus, otherstream
     reduce: (reducer, initial) ->
-        @walk (element) ->
-            initial = reducer initial, element
+        @walk (element) -> initial = reducer initial, element
         initial
     sum: -> @reduce(plus, 0)
     length: ->
@@ -123,13 +111,11 @@ class Stream
         l
     list: ->
         out = []
-        @walk (n) ->
-            out.push n
+        @walk (n) -> out.push n
         out
     until: (f) ->
         return new Stream() if @empty() or f @head()
-        new Stream @head(), =>
-            @tail().until f
+        new Stream @head(), => @tail().until f
     up_until: (f) ->
         return new Stream() if @empty()
         new Stream @head(), =>
