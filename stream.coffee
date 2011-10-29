@@ -1,4 +1,5 @@
 plus = (a,b) -> a+b
+eq = (a,b) -> a==b
 mirror = (x) -> x
 nonce=[]
 class Stream
@@ -137,7 +138,6 @@ class Stream
             else
                 @tail().up_until f
     equal: (s) ->
-        eq = (a,b) -> a==b
         try
             bstream = @zip eq, s
             bstream.all()
